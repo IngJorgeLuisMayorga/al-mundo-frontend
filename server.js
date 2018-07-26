@@ -34,12 +34,10 @@ app.get("/api/hotels/hotel/name/:name", function(req, res, next) {
   var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
   var name = req.param.name;
   var out = [];
-  for (let k = 0; k < obj.lenght; k++) {
-    let _hotel = obj[k];
-    if (_hotel.name.includes(name)) {
-      out.push(_hotel);
-    }
-  }
+  out = obj.find(function(element) {
+    return element.name.includes(name);
+  });
+  out.push(name);
   res.json(out);
 });
 
