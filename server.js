@@ -27,29 +27,25 @@ app.get("/api/hotels", function(req, res) {
   res.json(obj);
 });
 
-app.post("/api/hotels/hotel/", function(req, res) {
+app.post("/api/hotels/hotel/", function(req, res) {});
+
+app.get("/api/hotels/hotel/name/:name", function(req, res, next) {
   var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
   var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  res.json(obj);
+  var name = req.param.name;
+  var out = [];
+  for (let k = 0; k < obj.lenght; k++) {
+    let _hotel = obj[k];
+    if (_hotel.name.includes(name)) {
+      out.push(_hotel);
+    }
+  }
+  res.json(out);
 });
 
-app.get("/api/hotels/hotel/:id", function(req, res) {
-  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
-  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  res.json(obj);
-});
+app.put("/api/hotels/:id", function(req, res) {});
 
-app.put("/api/hotels/:id", function(req, res) {
-  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
-  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  res.json(obj);
-});
-
-app.delete("/api/hotels/:id", function(req, res) {
-  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
-  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  res.json(obj);
-});
+app.delete("/api/hotels/:id", function(req, res) {});
 
 // Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 8080);

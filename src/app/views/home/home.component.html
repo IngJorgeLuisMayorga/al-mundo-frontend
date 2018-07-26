@@ -6,8 +6,9 @@
 
   <section class="side right">
     <ul class="hotel-list">
-      <li class="hotel-item">
-        <am-hotel-item></am-hotel-item>
+      <li class="hotel-item" *ngFor="let hotel of hotels">
+        <am-hotel-item [name]="hotel.name" [image]="hotel.image" [stars]="hotel.stars" [price]="hotel.price" [amenities]="hotel.amenities">
+        </am-hotel-item>
       </li>
     </ul>
   </section>

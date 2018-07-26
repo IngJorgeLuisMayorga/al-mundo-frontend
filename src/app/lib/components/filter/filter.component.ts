@@ -1,11 +1,13 @@
 import { Component, OnInit } from "@angular/core";
-
+import { AppService } from "../../../app.service";
+import { Observable } from "rxjs/Rx"; // Angular 5/RxJS 5.5
 @Component({
   selector: "am-filter",
   templateUrl: "./filter.component.html",
   styleUrls: ["./filter.component.less"]
 })
 export class FilterComponent implements OnInit {
+  public searchText;
   public filter = {
     stars: [
       {
@@ -35,11 +37,17 @@ export class FilterComponent implements OnInit {
     ]
   };
 
-  constructor() {}
+  constructor(public appService: AppService) {}
 
   ngOnInit() {}
 
   public filterByStar(star) {
     console.log(star.value);
+  }
+  public filterByName() {
+    let _name = this.searchText;
+    this.appService.getHotels().subscribe(data => {
+      console.log(data);
+    });
   }
 }

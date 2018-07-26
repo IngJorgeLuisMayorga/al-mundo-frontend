@@ -1,11 +1,13 @@
-<div class="hotel-item">
+<div class="card hotel-item">
   <div class="col photo">
-    <img src="">
+    <img [src]="'../../../../assets/images/hotels/'+image">
   </div>
   <div class="col info">
-    <h3 class="hotel-name"></h3>
+    <h3 class="hotel-name">{{name}}</h3>
     <div class="hotel-stars">
-
+      <span *ngFor="let star of starsRange">
+        <i class="fas fa-star"></i>
+      </span>
     </div>
     <div class="hotel-services">
 
@@ -14,7 +16,7 @@
   <div class="col price">
     <span>Precio por noche por habitación</span>
     <h2 class="price">
-      ARS
+      {{ price | currency:'ARS ':true:'2.2-4'}}
     </h2>
     <button class="button">ver hotel</button>
   </div>
