@@ -621,9 +621,9 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\walla\Documents\GitHub\al-mundo-frontend\almundo\src\styles.css */"./src/styles.css");
-__webpack_require__(/*! C:\Users\walla\Documents\GitHub\al-mundo-frontend\almundo\src\assets\styles\_main.less */"./src/assets/styles/_main.less");
-module.exports = __webpack_require__(/*! C:\Users\walla\Documents\GitHub\al-mundo-frontend\almundo\src\assets\styles\_reset.less */"./src/assets/styles/_reset.less");
+__webpack_require__(/*! C:\Users\walla\Documents\GitHub\al-mundo-frontend\src\styles.css */"./src/styles.css");
+__webpack_require__(/*! C:\Users\walla\Documents\GitHub\al-mundo-frontend\src\assets\styles\_main.less */"./src/assets/styles/_main.less");
+module.exports = __webpack_require__(/*! C:\Users\walla\Documents\GitHub\al-mundo-frontend\src\assets\styles\_reset.less */"./src/assets/styles/_reset.less");
 
 
 /***/ })

@@ -13,7 +13,31 @@ app.get("/", function(req, res) {
 });
 
 app.get("/api/hotels", function(req, res) {
-  var usersFilePath = path.join(__dirname, "server/data.json");
+  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
+  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  res.json(obj);
+});
+
+app.post("/api/hotels/hotel/", function(req, res) {
+  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
+  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  res.json(obj);
+});
+
+app.get("/api/hotels/hotel/:id", function(req, res) {
+  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
+  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  res.json(obj);
+});
+
+app.put("/api/hotels/:id", function(req, res) {
+  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
+  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  res.json(obj);
+});
+
+app.delete("/api/hotels/:id", function(req, res) {
+  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
   var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
   res.json(obj);
 });
