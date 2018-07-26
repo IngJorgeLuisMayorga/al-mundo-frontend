@@ -39,7 +39,7 @@ app.get("/api/hotels/hotel/name/:name", function(req, res, next) {
     return element.name.includes(name);
   });
 
-  res.send(req);
+  res.json({ message: "Successfully deleted contact!" });
 });
 
 app.put("/api/hotels/stars/:stars", function(req, res) {
