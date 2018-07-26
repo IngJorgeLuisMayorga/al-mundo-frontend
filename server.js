@@ -34,9 +34,11 @@ app.get("/api/hotels/hotel/name/:name", function(req, res, next) {
   var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
   var name = req.param.name;
   var out = [];
+  /*
   out = obj.find(function(element) {
     return element.name.includes(name);
   });
+  */
   out.push(name);
   res.json(out);
 });
