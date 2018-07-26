@@ -1,0 +1,32 @@
+// ---------------------------------------------------- //
+@import (reference) "src/assets/styles/_main.less";
+// ---------------------------------------------------- //
+
+.am {
+  &.card {
+    font-size: 10pt;
+    .card-section {
+      .card-section-title {
+        font-weight: 700;
+        color: @color-clear-blue;
+        .flex-display(flex);
+        .flex-direction(row);
+        .flex-wrap(wrap);
+        .justify-content(flex-start);
+        .align-content(center);
+        .align-items(center);
+        .icon {
+          width: 1em;
+          padding: 0.1em 0.5em 0.1em 0em;
+        }
+      }
+    }
+    .card-section:first-child {
+      .card-section-title {
+        font-weight: 700;
+        color: @color-black;
+      }
+    }
+  }
+}
+// ---------------------------------------------------- //

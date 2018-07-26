@@ -1,0 +1,26 @@
+// ---------------------------------------------------- //
+@import (reference) "src/assets/styles/_main.less";
+// ---------------------------------------------------- //
+
+.am {
+  &.header {
+    display: block;
+    width: 100%;
+    height: @header-height;
+    max-height: 60pt;
+    min-height: fit-content;
+    background-color: @color-blue;
+    .flex-display(flex);
+    .flex-direction(row);
+    .flex-wrap(wrap);
+    .justify-content(space-between);
+    .align-content(center);
+    .align-items(center);
+  }
+  .header-logo {
+    display: block;
+    height: 70%;
+    padding: 0pt 5pt 0pt 5pt;
+  }
+}
+// ---------------------------------------------------- //

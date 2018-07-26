@@ -1,0 +1,35 @@
+<div class="am card">
+
+  <div class="card-section">
+    <div class="card-section-title">
+      <span class="title">Filtros</span>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="card-section-title">
+      <img class="icon" src="../../../../assets/icons/filters/search.svg">
+      <span class="title">Nombre del hotel</span>
+      <img class="drop">
+    </div>
+    <div class="card-section-content">
+
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="card-section-title">Estrellas</div>
+    <div class="card-section-content">
+      <ul>
+        <li>
+          <input type="checkbox" name="vehicle" value="Car" checked>
+          <span>Todas las estrellas</span>
+        </li>
+        <li *ngFor="let start of stars">
+          <input type="checkbox" name="vehicle" value="Car" checked> I have a car
+          <br>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

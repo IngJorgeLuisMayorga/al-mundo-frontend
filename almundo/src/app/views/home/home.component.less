@@ -1,0 +1,41 @@
+// ---------------------------------------------------- //
+@import (reference) "src/assets/styles/_main.less";
+// ---------------------------------------------------- //
+
+.am {
+  &.home {
+    display: block;
+
+    width: 100%;
+    height: @header-height;
+
+    max-height: 45pt;
+    min-height: fit-content;
+
+    background-color: @color-gray;
+
+    font-family: "Roboto", sans-serif;
+
+    .flex-display(flex);
+    .flex-direction(row);
+    .flex-wrap(wrap);
+    .justify-content(space-between);
+    .align-content(center);
+    .align-items(center);
+  }
+  .side {
+    display: block;
+    margin: 15pt;
+    &.left {
+      width: 30%;
+      min-width: 150pt;
+
+      box-sizing: border-box;
+    }
+    &.right {
+      width: auto;
+      box-sizing: border-box;
+    }
+  }
+}
+// ---------------------------------------------------- //
