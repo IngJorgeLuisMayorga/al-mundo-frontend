@@ -32,14 +32,14 @@ app.post("/api/hotels/hotel/", function(req, res) {});
 app.get("/api/hotels/hotel/name/:name", function(req, res, next) {
   var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
   var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  var name = req.param.name;
+  var _name = req.param.name;
   var out = [];
 
   out = obj.find(function(element) {
-    return element.name.includes(name);
+    return element.name.includes(_name);
   });
 
-  res.json({ message: "Successfully deleted contact!" });
+  res.json({ message: _name });
 });
 
 app.put("/api/hotels/stars/:stars", function(req, res) {
