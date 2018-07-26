@@ -130,7 +130,7 @@ var AppModule = /** @class */ (function () {
                 _lib_components_components_module__WEBPACK_IMPORTED_MODULE_5__["ComponentsModule"],
                 _views_home_home_module__WEBPACK_IMPORTED_MODULE_6__["HomeModule"]
             ],
-            providers: [_app_service__WEBPACK_IMPORTED_MODULE_7__["appService"]],
+            providers: [_app_service__WEBPACK_IMPORTED_MODULE_7__["AppService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
     ], AppModule);
@@ -189,14 +189,16 @@ var AppRoutingModule = /** @class */ (function () {
 /*!********************************!*\
   !*** ./src/app/app.service.ts ***!
   \********************************/
-/*! exports provided: appService */
+/*! exports provided: AppService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appService", function() { return appService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppService", function() { return AppService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs_observable_of__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/observable/of */ "./node_modules/rxjs-compat/_esm5/observable/of.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -208,23 +210,42 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var httpOptions = {
     headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ "Content-Type": "application/json" })
 };
-var appService = /** @class */ (function () {
-    function appService(http) {
+var AppService = /** @class */ (function () {
+    function AppService(http) {
         this.http = http;
-        this.url = "https://almundo-mayorga.herokuapp.com/";
     }
-    // Uses http.get() to load data from a single API endpoint
-    appService.prototype.getHotels = function () {
-        return this.http.get(this.url + "hotels");
+    AppService.prototype.getHotels = function () {
+        var _this = this;
+        return this.http
+            .get("https://almundo-mayorga.herokuapp.com/api/hotels")
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function (data) { return _this.log("fetched hotels"); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError("getHotels", [])));
     };
-    appService = __decorate([
+    AppService.prototype.getHotelsByNameSearch = function (name) {
+        var _this = this;
+        return this.http
+            .get("https://almundo-mayorga.herokuapp.com//api/hotels/hotel/name/" + name)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function (data) { return _this.log("fetched hotels filtered"); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError("getHotels", [])));
+    };
+    AppService.prototype.handleError = function (operation, result) {
+        if (operation === void 0) { operation = "operation"; }
+        return function (error) {
+            console.error(error);
+            return Object(rxjs_observable_of__WEBPACK_IMPORTED_MODULE_3__["of"])(result);
+        };
+    };
+    AppService.prototype.log = function (message) {
+        console.log("UserService: " + message);
+    };
+    AppService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
-    ], appService);
-    return appService;
+    ], AppService);
+    return AppService;
 }());
 
 
@@ -285,7 +306,7 @@ var ComponentsModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"am card\">\n\n  <div class=\"card-section\">\n    <div class=\"card-section-title\">\n      <span class=\"title\">Filtros</span>\n    </div>\n  </div>\n\n  <div class=\"card-section\">\n    <div class=\"card-section-title\">\n      <div class=\"wrapper\">\n        <img class=\"icon\" src=\"../../../../assets/icons/filters/search.svg\">\n        <span class=\"title\">Nombre del hotel</span>\n      </div>\n      <i class=\"fas fa-caret-down\"></i>\n    </div>\n    <div class=\"card-section-content\">\n      <input class=\"input\" type=\"text\" ng-model=\"searchText\" placeholder=\"Ingresa el nombre del hotel\">\n      <button class=\"button\">Aceptar</button>\n    </div>\n  </div>\n\n  <div class=\"card-section\">\n    <div class=\"card-section-title\">\n      <div class=\"wrapper\">\n        <img class=\"icon\" src=\"../../../../assets/icons/filters/star.svg\">\n        <span class=\"title\">Estrellas</span>\n      </div>\n      <i class=\"fas fa-caret-down\"></i>\n    </div>\n    <div class=\"card-section-content\">\n\n      <ul class=\"list-stars\">\n\n        <li class=\"item-star\" *ngFor=\"let kStar of filter.stars\">\n          <div class=\"all-stars\" *ngIf=\"kStar.value === 0\">\n            <input type=\"radio\" name=\"radio-button-stars\" [value]=\"kStar.value\" (change)=\"filterByStar(kStar)\" checked>\n            <span>\n              Todas las estrellas\n            </span>\n          </div>\n          <div class=\"n-stars\" *ngIf=\"kStar.value != 0\">\n            <input type=\"radio\" name=\"radio-button-stars\" [value]=\"kStar.value\" (change)=\"filterByStar(kStar)\">\n            <span *ngFor=\"let star of kStar.range\">\n              *\n            </span>\n          </div>\n\n        </li>\n\n      </ul>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"am card\">\n\n  <div class=\"card-section\">\n    <div class=\"card-section-title\">\n      <span class=\"title\">Filtros</span>\n    </div>\n  </div>\n\n  <div class=\"card-section\">\n    <div class=\"card-section-title\">\n      <div class=\"wrapper\">\n        <img class=\"icon\" src=\"../../../../assets/icons/filters/search.svg\">\n        <span class=\"title\">Nombre del hotel</span>\n      </div>\n      <i class=\"fas fa-caret-down\"></i>\n    </div>\n    <div class=\"card-section-content\">\n      <input class=\"input\" type=\"text\" ng-model=\"searchText\" placeholder=\"Ingresa el nombre del hotel\">\n      <button class=\"button\" (click)=\"filterByName()\">Aceptar</button>\n    </div>\n  </div>\n\n  <div class=\"card-section\">\n    <div class=\"card-section-title\">\n      <div class=\"wrapper\">\n        <img class=\"icon\" src=\"../../../../assets/icons/filters/star.svg\">\n        <span class=\"title\">Estrellas</span>\n      </div>\n      <i class=\"fas fa-caret-down\"></i>\n    </div>\n    <div class=\"card-section-content\">\n\n      <ul class=\"list-stars\">\n\n        <li class=\"item-star\" *ngFor=\"let kStar of filter.stars\">\n          <div class=\"all-stars\" *ngIf=\"kStar.value === 0\">\n            <input type=\"radio\" name=\"radio-button-stars\" [value]=\"kStar.value\" (change)=\"filterByStar(kStar)\" checked>\n            <span>\n              Todas las estrellas\n            </span>\n          </div>\n          <div class=\"n-stars\" *ngIf=\"kStar.value != 0\">\n            <input type=\"radio\" name=\"radio-button-stars\" [value]=\"kStar.value\" (change)=\"filterByStar(kStar)\">\n            <span *ngFor=\"let star of kStar.range\">\n              <i class=\"fas fa-star\"></i>\n            </span>\n          </div>\n\n        </li>\n\n      </ul>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -311,6 +332,7 @@ module.exports = ".am.card {\n  font-size: 10pt;\n}\n.am.card .input {\n  paddin
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterComponent", function() { return FilterComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _app_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../app.service */ "./src/app/app.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -321,8 +343,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var FilterComponent = /** @class */ (function () {
-    function FilterComponent() {
+    function FilterComponent(appService) {
+        this.appService = appService;
         this.filter = {
             stars: [
                 {
@@ -356,13 +380,19 @@ var FilterComponent = /** @class */ (function () {
     FilterComponent.prototype.filterByStar = function (star) {
         console.log(star.value);
     };
+    FilterComponent.prototype.filterByName = function () {
+        var _name = this.searchText;
+        this.appService.getHotels().subscribe(function (data) {
+            console.log(data);
+        });
+    };
     FilterComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: "am-filter",
             template: __webpack_require__(/*! ./filter.component.html */ "./src/app/lib/components/filter/filter.component.html"),
             styles: [__webpack_require__(/*! ./filter.component.less */ "./src/app/lib/components/filter/filter.component.less")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_app_service__WEBPACK_IMPORTED_MODULE_1__["AppService"]])
     ], FilterComponent);
     return FilterComponent;
 }());
@@ -502,7 +532,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hotel-item\">\n  <div class=\"col photo\">\n    <img src=\"\">\n  </div>\n  <div class=\"col info\">\n    <h3 class=\"hotel-name\"></h3>\n    <div class=\"hotel-stars\">\n\n    </div>\n    <div class=\"hotel-services\">\n\n    </div>\n  </div>\n  <div class=\"col price\">\n    <span>Precio por noche por habitación</span>\n    <h2 class=\"price\">\n      ARS\n    </h2>\n    <button class=\"button\">ver hotel</button>\n  </div>\n</div>"
+module.exports = "<div class=\"card hotel-item\">\n  <div class=\"col photo\">\n    <img [src]=\"'../../../../assets/images/hotels/'+image\">\n  </div>\n  <div class=\"col info\">\n    <h3 class=\"hotel-name\">{{name}}</h3>\n    <div class=\"hotel-stars\">\n      <span *ngFor=\"let star of starsRange\">\n        <i class=\"fas fa-star\"></i>\n      </span>\n    </div>\n    <div class=\"hotel-services\">\n\n    </div>\n  </div>\n  <div class=\"col price\">\n    <span>Precio por noche por habitación</span>\n    <h2 class=\"price\">\n      {{ price | currency:'ARS ':true:'2.2-4'}}\n    </h2>\n    <button class=\"button\">ver hotel</button>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -513,7 +543,7 @@ module.exports = "<div class=\"hotel-item\">\n  <div class=\"col photo\">\n    <
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".hotel-item {\n  display: block;\n  width: 100%;\n  box-sizing: border-box;\n  background-color: white;\n  margin-bottom: 2em;\n  padding: 1%;\n  display: -ms-flex;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  -ms-justify-content: flex-start;\n  justify-content: flex-start;\n  -ms-align-content: center;\n  align-content: center;\n  -ms-align-items: flex-start;\n  align-items: flex-start;\n}\n.hotel-item .col.photo {\n  display: block;\n  box-sizing: border-box;\n  width: 33%;\n  padding-right: 1em;\n}\n.hotel-item .col.photo img {\n  display: block;\n  box-sizing: border-box;\n  width: 100%;\n  height: 150px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.hotel-item .col.info {\n  display: block;\n  box-sizing: border-box;\n  width: 33%;\n  height: 150px;\n  padding-right: 1em;\n  display: -ms-flex;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n  -ms-justify-content: flex-start;\n  justify-content: flex-start;\n  -ms-align-content: flex-start;\n  align-content: flex-start;\n  -ms-align-items: flex-start;\n  align-items: flex-start;\n}\n.hotel-item .col.info .hotel-name {\n  color: #157ab1;\n  font-weight: 700;\n  text-align: left;\n}\n.hotel-item .col.price {\n  display: block;\n  box-sizing: border-box;\n  width: 33%;\n  height: 150px;\n  padding-right: 1em;\n  padding-left: 0.5em;\n  border-left: 2px dashed #f4f4f4;\n  display: -ms-flex;\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n  -ms-justify-content: center;\n  justify-content: center;\n  -ms-align-content: center;\n  align-content: center;\n  -ms-align-items: center;\n  align-items: center;\n}\n.hotel-item .col.price span {\n  color: #444444;\n  text-align: center;\n  margin-bottom: 0.25em;\n}\n.hotel-item .col.price h2 {\n  color: #DF6800;\n  font-size: 1.5em;\n  margin-bottom: 0.25em;\n}\n.hotel-item .col.price button {\n  background-color: #0b3c7c;\n  color: white;\n  border: 0.25em solid #0b3c7c;\n  border-radius: 2.5px;\n  font-size: 1.1em;\n}\n"
 
 /***/ }),
 
@@ -538,10 +568,34 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var HotelItemComponent = /** @class */ (function () {
     function HotelItemComponent() {
+        this.starsRange = [];
     }
-    HotelItemComponent.prototype.ngOnInit = function () { };
+    HotelItemComponent.prototype.ngOnInit = function () {
+        this.starsRange = Array.from(Array(this.stars).keys());
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], HotelItemComponent.prototype, "image", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], HotelItemComponent.prototype, "name", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], HotelItemComponent.prototype, "stars", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], HotelItemComponent.prototype, "price", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], HotelItemComponent.prototype, "amenities", void 0);
     HotelItemComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: "am-hotel-item",
@@ -564,7 +618,7 @@ var HotelItemComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"am home\">\n\n  <section class=\"side left\">\n    <am-filter></am-filter>\n  </section>\n\n  <section class=\"side right\">\n    <ul class=\"hotel-list\">\n      <li class=\"hotel-item\">\n        <am-hotel-item></am-hotel-item>\n      </li>\n    </ul>\n  </section>\n\n</main>"
+module.exports = "<main class=\"am home\">\n\n  <section class=\"side left\">\n    <am-filter></am-filter>\n  </section>\n\n  <section class=\"side right\">\n    <ul class=\"hotel-list\">\n      <li class=\"hotel-item\" *ngFor=\"let hotel of hotels\">\n        <am-hotel-item [name]=\"hotel.name\" [image]=\"hotel.image\" [stars]=\"hotel.stars\" [price]=\"hotel.price\" [amenities]=\"hotel.amenities\">\n        </am-hotel-item>\n      </li>\n    </ul>\n  </section>\n\n</main>"
 
 /***/ }),
 
@@ -575,7 +629,7 @@ module.exports = "<main class=\"am home\">\n\n  <section class=\"side left\">\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".am.home {\n  display: block;\n  width: 100%;\n  height: 20vw;\n  max-height: 45pt;\n  min-height: -webkit-fit-content;\n  min-height: -moz-fit-content;\n  min-height: fit-content;\n  background-color: #f4f4f4;\n  font-family: \"Roboto\", sans-serif;\n  display: -ms-flex;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  -ms-justify-content: space-between;\n  justify-content: space-between;\n  -ms-align-content: center;\n  align-content: center;\n  -ms-align-items: center;\n  align-items: center;\n}\n.am .side {\n  display: block;\n  margin: 15pt;\n}\n.am .side.left {\n  width: 30%;\n  min-width: 210pt;\n  box-sizing: border-box;\n}\n.am .side.right {\n  width: auto;\n  box-sizing: border-box;\n}\n"
+module.exports = ".am.home {\n  display: block;\n  width: 100%;\n  height: 20vw;\n  max-height: 45pt;\n  min-height: -webkit-fit-content;\n  min-height: -moz-fit-content;\n  min-height: fit-content;\n  background-color: #f4f4f4;\n  font-family: \"Roboto\", sans-serif;\n  display: -ms-flex;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  -ms-justify-content: space-between;\n  justify-content: space-between;\n  -ms-align-content: center;\n  align-content: center;\n  -ms-align-items: flex-start;\n  align-items: flex-start;\n}\n.am .side {\n  display: block;\n  margin: 15pt;\n}\n.am .side.left {\n  width: 30%;\n  min-width: 210pt;\n  box-sizing: border-box;\n}\n.am .side.right {\n  width: 60%;\n  box-sizing: border-box;\n}\n"
 
 /***/ }),
 
@@ -590,7 +644,7 @@ module.exports = ".am.home {\n  display: block;\n  width: 100%;\n  height: 20vw;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _app_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app.service */ "./src/app/app.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -603,14 +657,18 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(http) {
-        this.http = http;
+    function HomeComponent(appService) {
+        this.appService = appService;
+        this.hotels = [];
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.http
-            .get("https://almundo-mayorga.herokuapp.com/api/hotels")
-            .subscribe(function (data) {
-            console.log(data);
+        var self = this;
+        self.getHotels();
+    };
+    HomeComponent.prototype.getHotels = function () {
+        var self = this;
+        this.appService.getHotels().subscribe(function (data) {
+            self.hotels = data;
         });
     };
     HomeComponent = __decorate([
@@ -619,7 +677,7 @@ var HomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./home.component.html */ "./src/app/views/home/home.component.html"),
             styles: [__webpack_require__(/*! ./home.component.less */ "./src/app/views/home/home.component.less")]
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_app_service__WEBPACK_IMPORTED_MODULE_1__["AppService"]])
     ], HomeComponent);
     return HomeComponent;
 }());
