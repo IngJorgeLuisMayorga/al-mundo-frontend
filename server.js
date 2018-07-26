@@ -34,16 +34,26 @@ app.get("/api/hotels/hotel/name/:name", function(req, res, next) {
   var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
   var name = req.param.name;
   var out = [];
-  /*
+
   out = obj.find(function(element) {
     return element.name.includes(name);
   });
-  */
-  out.push(name);
-  res.json(out);
+
+  res.json(req);
 });
 
-app.put("/api/hotels/:id", function(req, res) {});
+app.put("/api/hotels/stars/:stars", function(req, res) {
+  var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
+  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  var stars = req.param.stars;
+  var out = [];
+
+  out = obj.find(function(element) {
+    return element.stars.includes(stars);
+  });
+
+  res.json(out);
+});
 
 app.delete("/api/hotels/:id", function(req, res) {});
 
