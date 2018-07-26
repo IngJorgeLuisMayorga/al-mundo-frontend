@@ -14,8 +14,8 @@ app.get("/", function(req, res) {
 
 app.get("/api/hotels", function(req, res) {
   var usersFilePath = path.join(__dirname, "server/data.json");
-  var readable = fs.createReadStream(usersFilePath);
-  readable.pipe(res);
+  var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  res.json(obj);
 });
 
 // Start the app by listening on the default Heroku port
