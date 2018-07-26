@@ -26,7 +26,7 @@ export class AppService {
   getHotelsByNameSearch(name): Observable<any[]> {
     return this.http
       .get<any[]>(
-        "https://almundo-mayorga.herokuapp.com//api/hotels/hotel/name/" + name
+        "https://almundo-mayorga.herokuapp.com//api/hotels/hotel/name/:" + name
       )
       .pipe(
         tap(data => this.log(`fetched hotels filtered`)),

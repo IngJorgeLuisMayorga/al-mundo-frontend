@@ -228,7 +228,7 @@ var AppService = /** @class */ (function () {
     AppService.prototype.getHotelsByNameSearch = function (name) {
         var _this = this;
         return this.http
-            .get("https://almundo-mayorga.herokuapp.com//api/hotels/hotel/name/" + name)
+            .get("https://almundo-mayorga.herokuapp.com//api/hotels/hotel/name/:" + name)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function (data) { return _this.log("fetched hotels filtered"); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError("getHotels", [])));
     };
     AppService.prototype.handleError = function (operation, result) {
@@ -344,6 +344,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var FilterComponent = /** @class */ (function () {
     function FilterComponent(appService) {
         this.appService = appService;
@@ -375,6 +376,7 @@ var FilterComponent = /** @class */ (function () {
                 }
             ]
         };
+        this.updatingHotels = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     FilterComponent.prototype.ngOnInit = function () { };
     FilterComponent.prototype.filterByStar = function (star) {
@@ -382,10 +384,15 @@ var FilterComponent = /** @class */ (function () {
     };
     FilterComponent.prototype.filterByName = function () {
         var _name = this.searchText;
-        this.appService.getHotels().subscribe(function (data) {
-            console.log(data);
+        var self = this;
+        this.appService.getHotelsByNameSearch(_name).subscribe(function (data) {
+            self.updatingHotels.emit(data);
         });
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", Object)
+    ], FilterComponent.prototype, "updatingHotels", void 0);
     FilterComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: "am-filter",
@@ -618,7 +625,7 @@ var HotelItemComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"am home\">\n\n  <section class=\"side left\">\n    <am-filter></am-filter>\n  </section>\n\n  <section class=\"side right\">\n    <ul class=\"hotel-list\">\n      <li class=\"hotel-item\" *ngFor=\"let hotel of hotels\">\n        <am-hotel-item [name]=\"hotel.name\" [image]=\"hotel.image\" [stars]=\"hotel.stars\" [price]=\"hotel.price\" [amenities]=\"hotel.amenities\">\n        </am-hotel-item>\n      </li>\n    </ul>\n  </section>\n\n</main>"
+module.exports = "<main class=\"am home\">\n\n  <section class=\"side left\">\n    <am-filter (updatingHotels)=\"filteringHotels($event)\"></am-filter>\n  </section>\n\n  <section class=\"side right\">\n    <ul class=\"hotel-list\">\n      <li class=\"hotel-item\" *ngFor=\"let hotel of hotels\">\n        <am-hotel-item [name]=\"hotel.name\" [image]=\"hotel.image\" [stars]=\"hotel.stars\" [price]=\"hotel.price\" [amenities]=\"hotel.amenities\">\n        </am-hotel-item>\n      </li>\n    </ul>\n  </section>\n\n</main>"
 
 /***/ }),
 
@@ -670,6 +677,10 @@ var HomeComponent = /** @class */ (function () {
         this.appService.getHotels().subscribe(function (data) {
             self.hotels = data;
         });
+    };
+    HomeComponent.prototype.filteringHotels = function (hotels) {
+        this.hotels = hotels;
+        console.log("new hotels " + this.hotels.length);
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({

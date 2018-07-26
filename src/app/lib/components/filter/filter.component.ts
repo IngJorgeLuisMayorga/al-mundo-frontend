@@ -1,6 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, EventEmitter } from "@angular/core";
 import { AppService } from "../../../app.service";
 import { Observable } from "rxjs/Rx"; // Angular 5/RxJS 5.5
+import { Input, Output } from "@angular/core";
+
 @Component({
   selector: "am-filter",
   templateUrl: "./filter.component.html",
@@ -37,6 +39,8 @@ export class FilterComponent implements OnInit {
     ]
   };
 
+  @Output() updatingHotels = new EventEmitter<any>();
+
   constructor(public appService: AppService) {}
 
   ngOnInit() {}
@@ -46,8 +50,9 @@ export class FilterComponent implements OnInit {
   }
   public filterByName() {
     let _name = this.searchText;
-    this.appService.getHotels().subscribe(data => {
-      console.log(data);
+    var self = this;
+    this.appService.getHotelsByNameSearch(_name).subscribe(data => {
+      self.updatingHotels.emit(data);
     });
   }
 }

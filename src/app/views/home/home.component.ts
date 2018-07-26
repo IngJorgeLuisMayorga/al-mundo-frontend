@@ -24,4 +24,9 @@ export class HomeComponent implements OnInit {
       self.hotels = data;
     });
   }
+
+  filteringHotels(hotels) {
+    this.hotels = hotels;
+    console.log("new hotels " + this.hotels.length);
+  }
 }
