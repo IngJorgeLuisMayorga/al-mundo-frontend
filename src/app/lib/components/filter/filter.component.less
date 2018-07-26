@@ -5,6 +5,18 @@
 .am {
   &.card {
     font-size: 10pt;
+    .input {
+      padding: 0.5em;
+      border: 1px solid @color-gray;
+      border-radius: 0.25em;
+      margin-right: 1em;
+    }
+    .button {
+      background-color: @color-blue;
+      color: white;
+      border: 0.25em solid @color-blue;
+      border-radius: 2.5px;
+    }
     .card-section {
       .card-section-title {
         font-weight: 700;
@@ -12,9 +24,17 @@
         .flex-display(flex);
         .flex-direction(row);
         .flex-wrap(wrap);
-        .justify-content(flex-start);
+        .justify-content(space-between);
         .align-content(center);
         .align-items(center);
+        .wrapper {
+          .flex-display(flex);
+          .flex-direction(row);
+          .flex-wrap(wrap);
+          .justify-content(center);
+          .align-content(center);
+          .align-items(center);
+        }
         .icon {
           width: 1em;
           padding: 0.1em 0.5em 0.1em 0em;
@@ -28,5 +48,11 @@
       }
     }
   }
+}
+
+input[type="radio"] {
+  -webkit-appearance: checkbox; /* Chrome, Safari, Opera */
+  -moz-appearance: checkbox; /* Firefox */
+  -ms-appearance: checkbox; /* not currently supported */
 }
 // ---------------------------------------------------- //

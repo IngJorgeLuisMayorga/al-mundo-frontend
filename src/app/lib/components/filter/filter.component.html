@@ -8,27 +8,46 @@
 
   <div class="card-section">
     <div class="card-section-title">
-      <img class="icon" src="../../../../assets/icons/filters/search.svg">
-      <span class="title">Nombre del hotel</span>
-      <img class="drop">
+      <div class="wrapper">
+        <img class="icon" src="../../../../assets/icons/filters/search.svg">
+        <span class="title">Nombre del hotel</span>
+      </div>
+      <i class="fas fa-caret-down"></i>
     </div>
     <div class="card-section-content">
-
+      <input class="input" type="text" ng-model="searchText" placeholder="Ingresa el nombre del hotel">
+      <button class="button">Aceptar</button>
     </div>
   </div>
 
   <div class="card-section">
-    <div class="card-section-title">Estrellas</div>
+    <div class="card-section-title">
+      <div class="wrapper">
+        <img class="icon" src="../../../../assets/icons/filters/star.svg">
+        <span class="title">Estrellas</span>
+      </div>
+      <i class="fas fa-caret-down"></i>
+    </div>
     <div class="card-section-content">
-      <ul>
-        <li>
-          <input type="checkbox" name="vehicle" value="Car" checked>
-          <span>Todas las estrellas</span>
+
+      <ul class="list-stars">
+
+        <li class="item-star" *ngFor="let kStar of filter.stars">
+          <div class="all-stars" *ngIf="kStar.value === 0">
+            <input type="radio" name="radio-button-stars" [value]="kStar.value" (change)="filterByStar(kStar)" checked>
+            <span>
+              Todas las estrellas
+            </span>
+          </div>
+          <div class="n-stars" *ngIf="kStar.value != 0">
+            <input type="radio" name="radio-button-stars" [value]="kStar.value" (change)="filterByStar(kStar)">
+            <span *ngFor="let star of kStar.range">
+              *
+            </span>
+          </div>
+
         </li>
-        <li *ngFor="let start of stars">
-          <input type="checkbox" name="vehicle" value="Car" checked> I have a car
-          <br>
-        </li>
+
       </ul>
     </div>
   </div>
