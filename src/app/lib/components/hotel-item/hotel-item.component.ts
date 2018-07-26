@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'am-hotel-item',
-  templateUrl: './hotel-item.component.html',
-  styleUrls: ['./hotel-item.component.css']
+  selector: "am-hotel-item",
+  templateUrl: "./hotel-item.component.html",
+  styleUrls: ["./hotel-item.component.less"]
 })
 export class HotelItemComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
