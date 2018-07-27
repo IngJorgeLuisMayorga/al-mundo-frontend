@@ -29,17 +29,13 @@ app.get("/api/hotels", function(req, res) {
 
 app.post("/api/hotels/hotel/", function(req, res) {});
 
-app.get("/api/hotels/hotel/name/:name", function(req, res, next) {
+app.get("/api/hotels/byName/:hotelname", function(req, res, next) {
+  var _name = req.params.hotelname;
   var usersFilePath = path.join(__dirname, "/dist/almundo/server/data.json");
   var obj = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  var _name = req.param.name;
-  var out = [];
+  var out = obj.filter(hotel => hotel.name.includes(_name));
 
-  out = obj.find(function(element) {
-    return element.name.includes(_name);
-  });
-
-  res.json({ message: _name });
+  res.json(out);
 });
 
 app.put("/api/hotels/stars/:stars", function(req, res) {
@@ -51,6 +47,8 @@ app.put("/api/hotels/stars/:stars", function(req, res) {
   out = obj.find(function(element) {
     return element.stars.includes(stars);
   });
+
+  console.log(out);
 
   res.json(out);
 });
